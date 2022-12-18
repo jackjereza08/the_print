@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Print Price - Dashboard{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h3 class=" capital-text center"><strong>Print Price</strong></h3>
+    <table class="z-depth-3">
+        <tr>
+            <th colspan="5">
+                <a href="#" class="btn green right margin-x-5">Edit Prices</a>
+                <a href="#" class="btn blue margin-x-5">This is a test</a>
+            </th>
+        </tr>
+        <tr>
+            <th></th>
+            <th></th>
+            <th>R0</th>
+            <th>R1</th>
+            <th>R2</th>
+        </tr>
+        <tr>
+            <td rowspan="2" class="center">SHORT</td>
+            <td>BLK</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+        </tr>
+        <tr>
+            <td>CLR</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+        </tr>
+        <tr>
+            <td rowspan="2" class="center">LONG</td>
+            <td>BLK</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+        </tr>
+        <tr>
+            <td>CLR</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+        </tr>
+    </table>
+</div>
+{% endblock %}

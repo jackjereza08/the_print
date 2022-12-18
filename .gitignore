@@ -1,0 +1,14 @@
+# Ignore venv.
+venv
+
+# Ignore __pycache__ .
+__pycache__
+
+# Ignore instance folder.
+instance/
+
+# Ignore config file.
+config.py
+
+# Ignore run.py .
+run.py

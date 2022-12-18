@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Paper - Add New{% endblock %}
+
+{% block content %}
+<div class="container row">
+    <div class="col l4"></div>
+    <div class="card col l4 z-depth-3 blue-grey darken-4">
+        <div class="card-content">
+            <h5 class="margin-off center capital-text"><strong>Add New Paper</strong></h5>
+            <form action="{{ url_for('paper.add') }}" method="post" class="row">
+                {{form.csrf_token}}
+                <div class="col l12">
+                    <div class="input-field">
+                        {{form.name(class='white-text')}}
+                        <label for="name">{{form.name.label}}</label>
+                    </div>
+                    <div class="input-field">
+                        {{form.dimension(class='white-text')}}
+                        <label for="dimension">{{form.dimension.label}}</label>
+                    </div>
+                    {{ form.submit(class='btn green col l12', value='SAVE') }}
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="col l4"></div>
+</div>
+{% endblock %}

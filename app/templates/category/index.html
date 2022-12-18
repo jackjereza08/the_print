@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Print Category - Dashboard{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h3 class=" capital-text center"><strong>Print Category</strong></h3>
+    {% if print_categories %}
+    <table class="col l8 highlight z-depth-3">
+        <tr>
+            <th></th>
+            <th style="width:25%">Category Name</th>
+            <th style="width:25%">Category Status</th>
+            <th>
+                {% if paper_count > 0 %}
+                <a href="{{ url_for('category.add') }}" class="btn green right margin-x-5">Add New</a>
+                {% else %}
+                <a href="{{ url_for('paper.add') }}" class="btn green disabled right margin-x-5">Add Paper First</a>
+                {% endif %}
+            </th>
+        </tr>
+        {% for category in print_categories %}
+        <tr>
+            <td></td>
+            <td>{{category.category_name}}</td>
+            <td>
+                {% if category.status == 0 %}
+                Inactive
+                {% else %}
+                Active
+                {% endif %}
+            </td>
+            <td class="right" style="display: flex;">
+                <a href="{{ url_for('category.edit', id=category.id_category) }}" class="btn grey margin-x-5">Edit</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p>No data.</p>
+    {% if paper_count > 0 %}
+    <a href="{{ url_for('category.add') }}" class="btn green margin-x-5">Add New</a>
+    {% else %}
+    <a href="{{ url_for('paper.add') }}" class="btn green margin-x-5">Add Paper First</a>
+    {% endif %}
+    {% endif %}
+</div>
+{% endblock %}

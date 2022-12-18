@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="card z-depth-3 blue-grey darken-4">
+        <div class="container">
+            <div class="row">
+                <div class="col s3 m3 l3"></div>
+                <div class="col s3 m3 l2"><h4>BLK</h4></div>
+                <div class="col s3 m3 l2"><h4>CLR</h4></div>
+                <div class="col s3 m3 l5"><h4>Amount</h4></div>
+            </div>
+            <div class="row">
+                <div class="col s3 m3 l3"><h4 class="right">R0</h4></div>
+                <div class="col s3 m3 l2 input-field">
+                    <input class="white-text" type="text" name="" id="">
+                </div>
+                <div class="col s3 m3 l2 input-field">
+                    <input class="white-text" type="text" name="" id="">
+                </div>
+                <div class="col s3 m3 l5"><h4>P 0.00</h4></div>
+            </div>
+            {% for paper in papers %}
+                {{paper.name}}
+                {{paper.dimension}}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

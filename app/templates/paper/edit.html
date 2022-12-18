@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Paper - Edit{% endblock %}
+
+{% block content %}
+<div class="container row">
+    <div class="col l4"></div>
+    <div class="card col l4 z-depth-3 blue-grey darken-4">
+        <div class="card-content">
+            <h5 class="margin-off center capital-text"><strong>Edit Paper</strong></h5>
+            <form action="{{ url_for('paper.edit', id=paper.id_paper) }}" method="post" class="row">
+                {{form.csrf_token}}
+                <div class="col l12">
+                    <div class="input-field">
+                        {{form.name(class='white-text', value=paper.name)}}
+                        <label for="name">{{form.name.label}}</label>
+                    </div>
+                    <div class="input-field">
+                        {{form.dimension(class='white-text', value=paper.dimension)}}
+                        <label for="name">{{form.dimension.label}}</label>
+                    </div>
+                    {{ form.submit(class='btn green z-depth-3 col l12', value='UPDATE') }}
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="col l4"></div>
+</div>
+{% endblock %}

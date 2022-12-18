@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Print Category - Add New{% endblock %}
+
+{% block content %}
+<div class="container row">
+    <div class="col l4"></div>
+    <div class="card col l4 z-depth-3 blue-grey darken-4">
+        <div class="card-content">
+            <h5 class="margin-off center capital-text"><strong>Add New Category</strong></h5>
+            <form action="{{ url_for('category.add') }}" method="post" class="row">
+                {{form.csrf_token}}
+                <div class="col l12">
+                    <div class="input-field">
+                        {{form.category_name(class='white-text')}}
+                        <label for="name">{{form.category_name.label}}</label>
+                    </div>
+                    {{form.status.label}}
+                    <div class="switch margin-y-5">
+                        <label class="white-text">
+                            Inactive
+                            {{form.status}}
+                            <span class="lever"></span>
+                            Active
+                        </label>
+                    </div>
+                    <div class="margin-y-5"></div>
+                    {{ form.submit(class='btn green col l12 margin-top-5', value='SAVE') }}
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="col l4"></div>
+</div>
+{% endblock %}

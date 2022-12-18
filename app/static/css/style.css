@@ -1,0 +1,41 @@
+.margin-off{
+    margin: 0;
+}
+
+.border-none{
+    border: none;
+}
+
+.capital-text{
+    text-transform: uppercase;
+}
+
+.margin-x-5{
+    margin: 0 5px;
+}
+
+.margin-y-5{
+    margin: 5px 0;
+}
+
+.margin-top-5{
+    margin-top: 5px;
+}
+
+.bold{
+    font-weight: bold;
+}
+
+table.highlight>tbody>tr:hover{
+    background-color: #131d2c;
+}
+
+.float-alert{
+    position:absolute;
+    bottom: 50px;
+    right: 15%;
+}
+
+.chip.alert>span{
+    font-size: 1.2em;
+}

@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}Inventory - Dashboard{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- <a href="{{ url_for('paper.add') }}" class="btn green">Add New</a> -->
+    {% if inventory_list %}
+    <table>
+        <tr>
+            <th>Inventory ID</th>
+            <th>Paper</th>
+            <th>No of Pages</th>
+        </tr>
+        {% for inventory, paper in inventory_list %}
+        <tr>
+            <td>{{inventory.id_inventory}}</td>
+            <td>{{paper.name}}({{paper.dimension}})</td>
+            <td>{{inventory.no_pages}}</td>
+            <td>
+                <!-- <div class="row margin-off">
+                    <div class="col"><a href="{{ url_for('paper.edit', id=paper.id_paper) }}" class="btn grey">Edit</a></div>
+                    <div class="col">
+                        <form action="{{ url_for('paper.delete', id=paper.id_paper) }}" method="post">
+                            <input type="submit" value="Delete" class="btn red">
+                        </form>
+                    </div>
+                </div> -->
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p>No data.</p>
+    {% endif %}
+</div>
+{% endblock %}

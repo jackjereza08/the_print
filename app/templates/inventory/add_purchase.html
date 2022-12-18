@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}Add Paper Purchase{% endblock %}
+
+{% block content %}
+
+<div class="container row">
+    <div class="col l4"></div>
+    <div class="card col l4 z-depth-3 blue-grey darken-4">
+        <div class="card-content">
+            <h5 class="margin-off center capital-text"><strong>Add Purchase</strong></h5>
+            <h6 class="margin-off center">{{paper.name}}({{paper.dimension}})</h6>
+            <form action="{{ url_for('inventory.add', id=paper.id_paper) }}" method="post" class="row">
+                {{form.csrf_token}}
+                <div class="col l12">
+                    <div class="input-field">
+                        {{form.no_pages(class='white-text')}}
+                        <label for="no_pages">{{form.no_pages.label}}</label>
+                        {% if form.no_pages.errors %}
+                        <span class="red-text small">
+                            {{form.no_pages.errors[0]}}
+                        </span>
+                        {% endif %}
+                    </div>
+                    <div class="input-field">
+                        {{form.purchase_cost(class='white-text')}}
+                        <label for="purchase_cost">{{form.purchase_cost.label}}</label>
+                        {% if form.purchase_cost.errors %}
+                        <span class="red-text small">
+                            {{form.purchase_cost.errors[0]}}
+                        </span>
+                        {% endif %}
+                    </div>
+                    <label for="purchase_date">{{form.purchase_date.label}}</label>
+                    <div class="input-field">
+                        {{form.purchase_date(class='white-text')}}
+                        {% if form.purchase_date.errors %}
+                        <span class="red-text small">
+                            {{form.purchase_date.errors[0]}}
+                        </span>
+                        {% endif %}
+                    </div>
+                    {{form.submit(class='btn green col l12')}}
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="col l4"></div>
+</div>
+
+{% endblock %}
