@@ -38,6 +38,3 @@ class CategoryForm(FlaskForm):
     status = BooleanField('Status')
     submit = SubmitField('SAVE')
 
-
-class PriceForm(FlaskForm):
-    pass
