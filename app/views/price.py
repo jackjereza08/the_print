@@ -10,7 +10,6 @@ the type of paper to use.
 from flask import Blueprint, render_template, redirect, url_for, request
 from flask import flash, abort
 from app import db
-from ..forms import PriceForm
 from ..models import PrintPrice, PrintCategory, Paper
 
 price = Blueprint("price", __name__)
@@ -23,6 +22,38 @@ def index():
     header = display_header()
     data = display_data()
     return render_template("price/index.html", header=header, data=data)
+
+
+@price.route("/edit-prices", methods=["GET","POST"])
+def edit():
+    # Gets data from the database for display.
+    header = display_header()
+    data = display_data()
+    # Instantiates the form for editing print prices.
+    # form = PriceForm()
+    # Checks whether the request method is GET or POST. Also checks if
+    # the forms submitted are valid.
+    try:
+        if request.method == "POST":
+            for i in range(len(data)):
+                id = i+1
+                updated_price = PrintPrice.query.get(id)
+                updated_price.price = request.form[f"{id}"]
+                db.session.commit()
+
+            flash("Updated Successfully!")
+            return redirect(url_for("price.index"))
+        else:
+            return render_template(
+                "price/edit.html",
+                header=header,
+                data=data,
+                # form=form,
+            )
+    except:
+        db.session.rollback()
+        flash("An error occured.")
+        return redirect(url_for("price.index"))
 
 # Display Category header at Print Price page.
 def display_header():
