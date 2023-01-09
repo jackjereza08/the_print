@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}Print Price - Edit Prices{% endblock %}
+
+{% block content %}
+<div class="container" style="padding-bottom: 5%;">
+    <h3 class=" capital-text center"><strong>Edit Print Price</strong></h3>
+    <table class="highlight z-depth-3">
+        <form action="{{ url_for('price.edit') }}" method="post">
+        <tr>
+            <th colspan="6">
+                <!-- <a href="#" class="btn green right margin-x-5">Edit Prices</a> -->
+                <input type="submit" value="Update" class="btn blue right margin-x-5">
+            </th>
+        </tr>
+        <tr>
+            <th></th>
+            <th>Paper Name</th>
+            <th>Dimension</th>
+            <th>Category</th>
+            <th>Print Type</th>
+            <th>Price</th>
+        </tr>
+        {% if data %}
+        {% for datum in data %}
+            <tr>
+                <td></td>
+                <td>{{datum.Paper.name}}</td>
+                <td>({{datum.Paper.dimension}})</td>
+                <td>{{datum.PrintCategory.category_name}}</td>
+                <td>{{datum.PrintPrice.print_type}}</td>
+                <td>
+                    <input class="white-text" id="{{datum.PrintPrice.id_print_price}}" max="999" min="0" name="{{datum.PrintPrice.id_print_price}}" step="any" type="number" value="{{datum.PrintPrice.price}}">
+                </td>
+                <!-- <td>
+                    
+                </td> -->
+            </tr>
+        {% endfor %}
+        {% endif %}
+        </form>
+    </table>
+    <p class="center">
+        <strong>
+            ***NOTHING FOLLOWS***
+        </strong>
+    </p>
+</div>
+{% endblock %}
