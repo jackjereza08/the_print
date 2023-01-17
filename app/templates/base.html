@@ -35,7 +35,9 @@
     {% endwith %}
     {% block content %}
     {% endblock %}
+    <script src="{{ url_for('static', filename='js/jquery361.js') }}"></script>
     <script src="{{ url_for('static', filename='js/materialize.js') }}"></script>
-    
+    {% block scripts %}
+    {% endblock %}
 </body>
 </html>
