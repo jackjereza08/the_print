@@ -20,26 +20,22 @@ class Paper(db.Model):
 class Sale(db.Model):
     __tablename__ = "sales"
     id_sales = db.Column(db.Integer, primary_key = True)
-    id_category = db.Column(
+    id_print_price = db.Column(
         db.Integer,
-        db.ForeignKey('print_categories.id_category')
-        )
-    id_paper = db.Column(db.Integer, db.ForeignKey('papers.id_paper'))
-    print_type = db.Column(db.String(5))
+        db.ForeignKey('print_prices.id_print_price')
+    )
     no_pages = db.Column(db.Integer)
     value = db.Column(db.Float)
     transaction_date = db.Column(db.Text)
 
-    def __init__(self, id_category, id_paper, print_type, no_pages, value,
+    def __init__(self, id_print_price, no_pages, value,
      transaction_date):
-        self.id_category = id_category
-        self.id_paper = id_paper
-        self.print_type = print_type
+        self.id_print_price = id_print_price
         self.no_pages = no_pages
         self.value = value
         self.transaction_date = transaction_date
 
-# Collection of Price cost of based on type of printing.
+# Collection of Price cost based on type of printing.
 class PrintPrice(db.Model):
     __tablename__ = "print_prices"
     id_print_price = db.Column(db.Integer, primary_key = True)
