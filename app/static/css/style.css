@@ -22,6 +22,10 @@
     margin-top: 5px;
 }
 
+.padding-top-5{
+    padding-top: 5px;
+}
+
 .bold{
     font-weight: bold;
 }
@@ -38,4 +42,17 @@ table.highlight>tbody>tr:hover{
 
 .chip.alert>span{
     font-size: 1.2em;
+}
+
+/* ==============Materialize Override============= */
+.select-wrapper input.select-dropdown{
+    color:#f0f0f0;
+}
+
+.select-wrapper .caret{
+    fill: #f0f0f0;
+}
+
+.select-wrapper>ul{
+    background-color: #131d2c;
 }
