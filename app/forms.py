@@ -1,6 +1,8 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, IntegerField, DecimalField
-from wtforms import DateField, BooleanField
+from wtforms import (
+    StringField, SubmitField, IntegerField, DecimalField, DateField,
+    BooleanField, SelectField, FieldList,
+)
 from wtforms.validators import DataRequired, InputRequired, NumberRange
 
 # Use to add or edit paper information.
@@ -32,9 +34,13 @@ class PurchaseForm(FlaskForm):
     purchase_date = DateField('Purchase Date', validators=[DataRequired()])
     submit = SubmitField('SAVE')
 
-
+# Use to add print category.
 class CategoryForm(FlaskForm):
     category_name = StringField('Category Name', validators=[DataRequired()])
     status = BooleanField('Status')
     submit = SubmitField('SAVE')
 
+
+class IndexForm(FlaskForm):
+    paper = SelectField('Paper')
+    categories = FieldList(IntegerField('category'))
