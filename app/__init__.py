@@ -22,3 +22,4 @@ with app.app_context():
     db = SQLAlchemy(app)
     from . import models
     from . import routes
+    db.create_all()
