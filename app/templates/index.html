@@ -4,27 +4,108 @@
 <div class="container">
     <div class="card z-depth-3 blue-grey darken-4">
         <div class="container">
-            <div class="row">
-                <div class="col s3 m3 l3"></div>
-                <div class="col s3 m3 l2"><h4>BLK</h4></div>
-                <div class="col s3 m3 l2"><h4>CLR</h4></div>
-                <div class="col s3 m3 l5"><h4>Amount</h4></div>
+            <!-- <span id="test">Change this</span>
+            <span id="test1">Change this</span>
+            <a href="javascript:test()">Change</a> -->
+            <form action="#" id="the_form" method="post" class="row padding-top-5">
+                {{ form.csrf_token }}
+                <div class="row">
+                    <div class="input-field row">
+                        <div class="col l10">
+                        {{form.paper}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s3 m3 l3"></div>
+                    <div class="col s3 m3 l4"><h4>BLK</h4></div>
+                    <div class="col s3 m3 l2"><h4>CLR</h4></div>
+                </div>
+                <div class="col l2">
+                    <div class="row">
+                        {% if categories %}
+                        {% for category in categories %}
+                        <div class="col l12">
+                            <h5>{{category.category_name}}</h5>
+                        </div>
+                        {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="col l10">
+                    {% for cat in form.categories %}
+                    {{cat(class='col l4 white-text')}}
+                    <div class="col l1"></div>
+                    {% endfor %}
+                </div>
             </div>
             <div class="row">
-                <div class="col s3 m3 l3"><h4 class="right">R0</h4></div>
-                <div class="col s3 m3 l2 input-field">
-                    <input class="white-text" type="text" name="" id="">
-                </div>
-                <div class="col s3 m3 l2 input-field">
-                    <input class="white-text" type="text" name="" id="">
-                </div>
-                <div class="col s3 m3 l5"><h4>P 0.00</h4></div>
+                <h4>Total Amount: Php <span id="total_amount">0.00</span></h4>
             </div>
-            {% for paper in papers %}
-                {{paper.name}}
-                {{paper.dimension}}
-            {% endfor %}
+            <div class="row">
+                <div class="col l6">
+                    <input type="button" id="calculate" class="btn red lighten-1" value="Calculate">
+                </div>
+                <div class="col l4">
+                    <input type="button" id="save" class="btn blue lighten-1" value="Save Transaction">
+                </div>
+            </div>
+            </form>
         </div>
     </div>
 </div>
+
+{% endblock %}
+{% block scripts %}
+<script>
+    // Initialization of select form.
+    $(document).ready(function(){
+        $('select').formSelect();
+        // Button calculate clicked.
+        $("#calculate").click(function(){
+            $('#total_amount').text("...");
+            calculate();
+        });
+
+        $("#save").click(function(){
+            $('#total_amount').text("...");
+            save_transaction();
+        });
+
+    });
+
+    function calculate() {
+        var input_list = []
+        $('#the_form input[type=number]').each(function(){
+            input_list.push($(this).val());
+        });
+        
+        $.post("{{ url_for('home.json_this') }}",{
+            paper: JSON.stringify($("select[name=paper]").val()),
+            sheets: JSON.stringify(input_list)
+        }).done(function(response){
+            $('#total_amount').text(response['total_amount']);
+        }).fail(function(){
+            $('#total_amount').text('Error');
+        });
+    }
+
+    function save_transaction(){
+        var input_list = []
+        $('#the_form input[type=number]').each(function(){
+            input_list.push($(this).val());
+        });
+        
+        $.post("{{ url_for('home.save_transaction') }}",{
+            paper: JSON.stringify($("select[name=paper]").val()),
+            sheets: JSON.stringify(input_list)
+        }).done(function(response){
+            $('#total_amount').text(response['total_amount']);
+            if(response['status'] == 'Success'){
+                location.reload()
+            }
+        }).fail(function(){
+            $('#total_amount').text('Error');
+        });
+    }
+</script>
 {% endblock %}
