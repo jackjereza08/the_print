@@ -23,9 +23,6 @@
             <td class="right" style="display: flex;">
                 <a href="{{ url_for('inventory.add', id=paper.id_paper) }}" class="btn margin-x-5">Add Sheet</a>
                 <a href="{{ url_for('paper.edit', id=paper.id_paper) }}" class="btn grey margin-x-5">Edit</a>
-                <form action="{{ url_for('paper.delete', id=paper.id_paper) }}" method="post">
-                    <input type="submit" value="Delete" class="btn red margin-x-5">
-                </form>
             </td>
         </tr>
         {% endfor %}

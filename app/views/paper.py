@@ -95,19 +95,3 @@ def edit(id):
         flash("An error occured.")
         return redirect(url_for("paper.index"))
 
-""" Delete selected paper.
-This method will deleted the selected paper info from the database.
-NOTE: Add new page for delete confirmation.
-"""
-@paper.route("/delete/<id>", methods=["GET", "POST"])
-def delete(id):
-    try:
-        if request.method == "POST":
-            Paper.query.filter_by(id_paper=id).delete()
-            db.session.commit()
-            flash("Deleted Successfully!")
-    except:
-        db.session.rollback()
-        abort(500)
-    finally:
-        return redirect(url_for("paper.index"))
