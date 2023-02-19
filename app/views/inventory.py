@@ -12,20 +12,6 @@ from ..models import Inventory, Paper, Cost
 
 inventory = Blueprint("inventory", __name__)
 
-"""Returns the index dashboard for inventory and displays the list of
-papers and its no of sheets available.
-"""
-@inventory.route("/")
-def index():
-    try:
-        inventory_list = db.session.query(Inventory, Paper).join(Paper).all()
-        return render_template(
-            "inventory/index.html",
-            inventory_list=inventory_list
-            )
-    except:
-        abort(500)
-
 """Returns purhcase form.
 This will add purchase cost and inventory to the database.
 """
