@@ -19,6 +19,16 @@
                         {{form.dimension(class='white-text')}}
                         <label for="dimension">{{form.dimension.label}}</label>
                     </div>
+                    {{form.status.label}}
+                    <div class="switch margin-y-5">
+                        <label class="white-text">
+                            Inactive
+                            {{form.status}}
+                            <span class="lever"></span>
+                            Active
+                        </label>
+                    </div>
+                    <div class="margin-y-5"></div>
                     {{ form.submit(class='btn green col l12', value='SAVE') }}
                 </div>
             </form>

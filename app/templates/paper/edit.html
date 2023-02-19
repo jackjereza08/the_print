@@ -19,6 +19,20 @@
                         {{form.dimension(class='white-text', value=paper.dimension)}}
                         <label for="name">{{form.dimension.label}}</label>
                     </div>
+                    {{form.status.label}}
+                    <div class="switch margin-y-5">
+                        <label class="white-text">
+                            Inactive
+                            {% if paper.status == 1 %}
+                                {{form.status(checked='')}}
+                            {% else %}
+                                {{form.status()}}
+                            {% endif %}
+                            <span class="lever"></span>
+                            Active
+                        </label>
+                    </div>
+                    <div class="margin-y-5"></div>
                     {{ form.submit(class='btn green z-depth-3 col l12', value='UPDATE') }}
                 </div>
             </form>
