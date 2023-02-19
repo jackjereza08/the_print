@@ -11,10 +11,12 @@ class Paper(db.Model):
     id_paper = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(100))
     dimension = db.Column(db.String(100))
+    status = db.Column(db.Integer)
 
-    def __init__(self, name, dimension):
+    def __init__(self, name, dimension, status):
         self.name = name
         self.dimension = dimension
+        self.status = status
 
 # Collection of Sales
 class Sale(db.Model):
