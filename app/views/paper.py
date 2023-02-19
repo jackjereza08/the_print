@@ -33,9 +33,11 @@ def add():
         try:
             name = form.name.data
             dimension = form.dimension.data
+            status = int(form.status.data)
             paper = Paper(
                 name=name,
-                dimension=dimension
+                dimension=dimension,
+                status = status,
             )
             db.session.add(paper)
             # Saves the paper to the database.
@@ -78,6 +80,7 @@ def edit(id):
             paper = Paper.query.get(id)
             paper.name = form.name.data
             paper.dimension = form.dimension.data
+            paper.status = int(form.status.data)
             # Saves everything to the database.
             db.session.commit()
             flash("Updated Successfully!")
