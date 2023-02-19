@@ -106,6 +106,7 @@ def edit(id):
             category.status = int(form.status.data)
             # Saves everything to the database.
             db.session.commit()
+            configure_price_db()
             flash("Updated Successfully!")
             return redirect(url_for("category.index"))
         else:
