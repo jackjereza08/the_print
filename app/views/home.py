@@ -4,11 +4,11 @@ per transaction.
 """
 
 from datetime import date
-from flask import (Blueprint, render_template, jsonify, request, redirect,
-    url_for, flash
+from flask import (
+    Blueprint, render_template, jsonify, request, flash, abort
 )
 from app import db
-from ..models import Paper, PrintCategory, PrintPrice, Sale
+from ..models import Paper, PrintCategory, PrintPrice, Sale, Inventory
 from ..forms import IndexForm
 import json
 from sqlalchemy import text
@@ -27,7 +27,10 @@ def index():
         # Get list of print categories in the database.
         categories = PrintCategory.query.filter_by(status=1).all()
         # Get list of papers in the database.
-        papers = Paper.query.all()
+        papers = db.session.query(Paper, Inventory).join(Inventory).filter(
+            Paper.status == 1,
+            Inventory.no_pages > 0,
+        ).all()
         # Extract id_category in categories object.
         id_category_list = [cat.id_category for cat in categories]
         # Get list of print_price.
@@ -39,8 +42,11 @@ def index():
         form = IndexForm()
         # Add list of papers as radiobutton.
         form.paper.choices = [
-            (paper.id_paper, f"{paper.name} ({paper.dimension})")
-            for paper in papers
+            (
+                paper.id_paper,
+                f"{paper.name} ({paper.dimension}) - {sheet.no_pages} sheets"
+            )
+            for paper, sheet in papers
         ]
         # Create new input field using the number of print_price.
         for _ in print_prices:
@@ -56,7 +62,7 @@ def index():
             form=form,
         )
     except:
-        return redirect(url_for('paper.index'))
+        abort(500)
 
 
 @home.route("/testjson", methods=["GET", "POST"])
