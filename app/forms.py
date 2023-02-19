@@ -9,6 +9,7 @@ from wtforms.validators import DataRequired, InputRequired, NumberRange
 class PaperForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])
     dimension = StringField('Dimension', validators=[DataRequired()])
+    status = BooleanField('Status')
     submit = SubmitField('SAVE')
 
 # Use to add or edit paper inventory.
