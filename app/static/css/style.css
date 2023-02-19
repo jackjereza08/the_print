@@ -35,7 +35,7 @@ table.highlight>tbody>tr:hover{
 }
 
 .float-alert{
-    position:absolute;
+    position:fixed;
     bottom: 50px;
     right: 15%;
 }
