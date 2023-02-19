@@ -9,9 +9,10 @@
     <table class="col l8 highlight z-depth-3">
         <tr>
             <th></th>
-            <th style="width:25%">Name</th>
-            <th style="width:25%">Dimension</th>
+            <th style="width:20%">Name</th>
+            <th style="width:20%">Dimension</th>
             <th>No of Sheets</th>
+            <th>Status</th>
             <th><a href="{{ url_for('paper.add') }}" class="btn green right margin-x-5">Add New</a></th>
         </tr>
         {% for paper, sheet in papers %}
@@ -20,6 +21,13 @@
             <td>{{paper.name}}</td>
             <td>{{paper.dimension}}</td>
             <td>{{sheet.no_pages}}</td>
+            <td>
+                {%if paper.status == 0%}
+                Deactive
+                {%else%}
+                Active
+                {%endif%}
+            </td>
             <td class="right" style="display: flex;">
                 <a href="{{ url_for('inventory.add', id=paper.id_paper) }}" class="btn margin-x-5">Add Sheet</a>
                 <a href="{{ url_for('paper.edit', id=paper.id_paper) }}" class="btn grey margin-x-5">Edit</a>
