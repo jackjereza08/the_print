@@ -9,46 +9,45 @@
             <a href="javascript:test()">Change</a> -->
             <form action="#" id="the_form" method="post" class="row padding-top-5">
                 {{ form.csrf_token }}
-                <div class="row">
-                    <div class="input-field row">
-                        <div class="col l10">
-                        {{form.paper}}
-                    </div>
+                <div class="input-field row">
+                    {{form.paper}}
                 </div>
+                <span class="red-text text-lighten-1" id="error"></span>
                 <div class="row">
                     <div class="col s3 m3 l3"></div>
                     <div class="col s3 m3 l4"><h4>BLK</h4></div>
-                    <div class="col s3 m3 l2"><h4>CLR</h4></div>
+                    <div class="col s3 m3 l5"><h4>CLR</h4></div>
                 </div>
-                <div class="col l2">
-                    <div class="row">
-                        {% if categories %}
-                        {% for category in categories %}
-                        <div class="col l12">
-                            <h5>{{category.category_name}}</h5>
+                <div class="row">
+                    <div class="col l3">
+                        <div class="row right-align">
+                            {% if categories %}
+                            {% for category in categories %}
+                            <div class="col l12">
+                                <h5>{{category.category_name}}</h5>
+                            </div>
+                            {% endfor %}
+                            {% endif %}
                         </div>
+                    </div>
+                    <div class="col l9">
+                        {% for cat in form.categories %}
+                        {{cat(class='col l4 white-text')}}
+                        <div class="col l1"></div>
                         {% endfor %}
-                        {% endif %}
                     </div>
                 </div>
-                <div class="col l10">
-                    {% for cat in form.categories %}
-                    {{cat(class='col l4 white-text')}}
-                    <div class="col l1"></div>
-                    {% endfor %}
+                <div class="row">
+                    <h4>Total Amount: Php <span id="total_amount">0.00</span></h4>
                 </div>
-            </div>
-            <div class="row">
-                <h4>Total Amount: Php <span id="total_amount">0.00</span></h4>
-            </div>
-            <div class="row">
-                <div class="col l6">
-                    <input type="button" id="calculate" class="btn red lighten-1" value="Calculate">
+                <div class="row">
+                    <div class="col l6">
+                        <input type="button" id="calculate" class="btn red lighten-1" value="Calculate">
+                    </div>
+                    <div class="col l4">
+                        <input type="button" id="save" class="btn blue lighten-1" value="Save Transaction">
+                    </div>
                 </div>
-                <div class="col l4">
-                    <input type="button" id="save" class="btn blue lighten-1" value="Save Transaction">
-                </div>
-            </div>
             </form>
         </div>
     </div>
@@ -84,6 +83,7 @@
             sheets: JSON.stringify(input_list)
         }).done(function(response){
             $('#total_amount').text(response['total_amount']);
+            is_over(response['is_over']);
         }).fail(function(){
             $('#total_amount').text('Error');
         });
@@ -103,9 +103,19 @@
             if(response['status'] == 'Success'){
                 location.reload()
             }
+            is_over(response['is_over']);
         }).fail(function(){
             $('#total_amount').text('Error');
         });
+    }
+
+    function is_over(bool){
+        if(bool){
+            $('#error').text("You entered more than the available sheets in the inventory.");
+        }
+        else{
+            $('#error').text("");
+        }
     }
 </script>
 {% endblock %}
