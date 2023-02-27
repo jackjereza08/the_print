@@ -117,7 +117,6 @@ def save_transaction():
                     inventory = Inventory.query.filter_by(
                                 id_paper=text(f'{paper_id}')
                                 ).first()
-                    print(inventory)
                     inventory.no_pages = inventory.no_pages - int(sheet)
                     db.session.commit()
             
