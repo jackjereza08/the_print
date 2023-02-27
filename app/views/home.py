@@ -68,10 +68,12 @@ def index():
 @home.route("/testjson", methods=["GET", "POST"])
 def json_this():
     amount_list = calculate()
+    is_over = check_inventory()
 
     return jsonify(
         {
-            'total_amount': sum(amount_list)
+            'total_amount': sum(amount_list),
+            'is_over': is_over,
         }
     )
 
@@ -79,26 +81,47 @@ def json_this():
 @home.route("/savetransaction", methods=["GET", "POST"])
 def save_transaction():
     try:
+        is_over = check_inventory()
         amount_list = calculate()
-        print_prices = get_print_prices()
-        sheets = json.loads(request.form["sheets"])
 
-        # Save to the database.
-        for amount, price_id, sheet in zip(
+        if is_over:
+            # If is_over is True then no transaction will be saved.
+            return jsonify(
+                {
+                    'total_amount': sum(amount_list),
+                    'status': 'Fail',
+                    'is_over': is_over,
+                }
+            )
+        else:
+            # If is_over is False then the transaction will be saved.
+            print_prices = get_print_prices()
+            sheets = json.loads(request.form["sheets"])
+            paper_id = request.form["paper"]
+
+            # Save to the database.
+            for amount, price_id, sheet in zip(
                         amount_list,
                         [price_id.id_print_price for price_id in print_prices],
                         [sheet for sheet in sheets],
                                     ):
-            if amount!=0:
-                sale = Sale(
-                    id_print_price=price_id,
-                    no_pages=sheet,
-                    value=amount,
-                    transaction_date=date.today()
-                )
-                db.session.add(sale)
-                db.session.commit()
-                flash('Saved Successfully!')
+                if amount!=0:
+                    sale = Sale(
+                        id_print_price=price_id,
+                        no_pages=sheet,
+                        value=amount,
+                        transaction_date=date.today()
+                    )
+                    db.session.add(sale)
+                    # Subtract the printed sheets from the inventory.
+                    inventory = Inventory.query.filter_by(
+                                id_paper=text(f'{paper_id}')
+                                ).first()
+                    print(inventory)
+                    inventory.no_pages = inventory.no_pages - int(sheet)
+                    db.session.commit()
+            
+            flash('Saved Successfully!')
     except:
         db.session.rollback()
         flash('Unexpected Error')
@@ -106,13 +129,13 @@ def save_transaction():
     return jsonify(
         {
             'total_amount': sum(amount_list),
-            'status': 'Success'
+            'status': 'Success',
         }
     )
 
 
 def calculate():
-    # Get input values via Ajax in Dictionary format.
+    # Get input values via Ajax in List format.
     input_dict = json.loads(request.form["sheets"])
     
     print_prices = get_print_prices()
@@ -146,4 +169,25 @@ def get_print_prices():
     ).filter(PrintPrice.id_paper==text(f'{paper}')).all()
 
     return print_prices
+
+# Check if the user's input of no. of sheets is more than the available
+# sheets in the inventory.
+def check_inventory():
+    input_list = json.loads(request.form["sheets"])
+    # Convert '' into 0.
+    for i in range(len(input_list)):
+        if input_list[i] == "":
+            input_list[i] = 0
+        else:
+            input_list[i] = int(input_list[i])
+    total_sheets = sum(input_list)
+    paper = request.form["paper"]
+    found_paper = Inventory.query.filter_by(id_paper=text(f'{paper}')).first()
+    
+    # Return True if the user inputted no. of sheets is greater than the 
+    # available sheets in the inventory.
+    if total_sheets > found_paper.no_pages:
+        return True
+    else:
+        return False
 
